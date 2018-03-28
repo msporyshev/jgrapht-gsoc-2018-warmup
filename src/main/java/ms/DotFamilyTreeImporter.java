@@ -5,21 +5,42 @@ import org.jgrapht.graph.DirectedPseudograph;
 import org.jgrapht.io.*;
 import java.io.*;
 
+/**
+ * Class encapsulates import of family tree from dot file.
+ */
+
 public class DotFamilyTreeImporter {
+
+    /**
+     * graph importer
+     */
+
     private GraphImporter<String, DefaultEdge> importer;
+
+    /**
+     * Constructor. Creates DOT importer inside
+     */
 
     public DotFamilyTreeImporter() {
         VertexProvider<String> vp = (a, b) -> a;
         EdgeProvider<String, DefaultEdge> ep = (f, t, l, a) -> new DefaultEdge();
-        this.importer = new DOTImporter<String, DefaultEdge>(vp, ep);
+        this.importer = new DOTImporter<>(vp, ep);
     }
+
+    /**
+     *
+     * @param tree family tree to initialize
+     * @param in any input reader
+     * @throws ImportException
+     */
 
     public void importGraph(FamilyTree tree, Reader in) throws ImportException {
         DirectedPseudograph<String, DefaultEdge> graph =
-                new DirectedPseudograph<String, DefaultEdge>(DefaultEdge.class);
+                new DirectedPseudograph<>(DefaultEdge.class);
         this.importer.importGraph(graph, in);
 
         // Removing all not child-parent relations
+        // Could possibly just remove all 2-link edges. But it would be better if input file contains already a DAG
         graph.removeEdge("Robert", "Cersei");
         graph.removeEdge("Cersei", "Robert");
         graph.removeEdge("Cersei", "Jaime");
