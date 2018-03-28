@@ -6,7 +6,7 @@ import org.jgrapht.io.*;
 import java.io.*;
 
 public class DotFamilyTreeImporter {
-    GraphImporter<String, DefaultEdge> importer;
+    private GraphImporter<String, DefaultEdge> importer;
 
     public DotFamilyTreeImporter() {
         VertexProvider<String> vp = (a, b) -> a;
@@ -19,6 +19,7 @@ public class DotFamilyTreeImporter {
                 new DirectedPseudograph<String, DefaultEdge>(DefaultEdge.class);
         this.importer.importGraph(graph, in);
 
+        // Removing all not child-parent relations
         graph.removeEdge("Robert", "Cersei");
         graph.removeEdge("Cersei", "Robert");
         graph.removeEdge("Cersei", "Jaime");
@@ -27,6 +28,8 @@ public class DotFamilyTreeImporter {
         graph.removeEdge("Joanna", "Tywin");
         graph.removeEdge("Lyanna", "Rhaegar");
         graph.removeEdge("Rhaegar", "Lyanna");
+        graph.removeEdge("Rhaelle", "Ormund");
+        graph.removeEdge("Ormund", "Rhaelle");
 
         tree.buildTreeFrom(graph);
     }

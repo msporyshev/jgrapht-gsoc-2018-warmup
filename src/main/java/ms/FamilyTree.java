@@ -8,8 +8,8 @@ import org.jgrapht.graph.DirectedPseudograph;
 import java.util.*;
 
 public class FamilyTree {
-    DirectedPseudograph<String, DefaultEdge> graph;
-    NaiveLcaFinder<String, DefaultEdge> lcaFinder;
+    private DirectedPseudograph<String, DefaultEdge> graph;
+    private NaiveLcaFinder<String, DefaultEdge> lcaFinder;
 
     public FamilyTree() {
 
@@ -22,5 +22,9 @@ public class FamilyTree {
 
     public Set<String> findLcas(@NotNull String first, @NotNull String second) {
         return Objects.requireNonNull(lcaFinder).findLcas(first, second);
+    }
+
+    public DirectedPseudograph<String, DefaultEdge> getGraph() {
+        return graph;
     }
 }
